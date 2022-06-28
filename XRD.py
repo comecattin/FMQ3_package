@@ -14,8 +14,9 @@ font = {'family' : 'serif',
         'weight' : 'bold',
         'size'   : 16}
 matplotlib.rc('font', **font)
-matplotlib.rc('figure',figsize=(15,7))
+matplotlib.rc('figure',figsize=(15,8))
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 
@@ -101,7 +102,7 @@ def normalize(intensity):
 def plot_XRD(angle,PSD,file_name,
              ref=False, path_ref='',
              n_powder=1,
-             color=['red'],label=['Powder 1'],label_ref=r'Reference',
+             color=['red'],label=['Powder 1'],label_ref=[r'Reference'],
              over = True):
     """
     Plot the XRD powder pattern
@@ -248,13 +249,6 @@ def plot_XRD(angle,PSD,file_name,
                     ax[i+n_powder].legend()
 
 
-
-
-
-
-
-
-
         #Don't plot the reference
         else:
             if over :
@@ -296,7 +290,7 @@ def plot_XRD(angle,PSD,file_name,
 
 def XRD(path,file_name,
         ref=False, path_ref='',
-        n_powder=1,color='red',label='Sample 1',label_ref=r'Reference',
+        n_powder=1,color='red',label='Sample 1',label_ref=[r'Reference'],
         over=True):
     '''
     
@@ -439,7 +433,11 @@ if __name__=='__main__':
         'Co2P2O7_sample_2_600' : '../XRD/Co2P2O7/Sample_2_600C/Co2P2O7_sample_2_600.txt',
         'Co2P2O7_sample_3_900' : '../XRD/Co2P2O7/Sample_3_900C/Co2P2O7_sample_3_900.txt',
         'Co2P2O7_sample_3_1000' : '../XRD/Co2P2O7/Sample_3_1000C/Co2P2O7_sample_3_1000.txt',
+        'Co2P2O7_sample_4' : '../XRD/Co2P2O7/Sample_4/Co2P2O7_sample_4.txt',
         'Co2P2O7_beta_sample_1' : '../XRD/Co2P2O7/Beta/Sample_1/Co2P2O7_beta_sample_1.txt',
+        'Co2P2O7_sample_6_1100' : '../XRD/Co2P2O7/Sample_6/Co2P2O7_sample_6_1100.txt',
+        'Co2P2O7_sample_5' : '../XRD/Co2P2O7/Sample_5/Co2P2O7_sample_5.txt',
+        'Co2P2O7_sample_5_quenched_1100' : '../XRD/Co2P2O7/Sample_5/Co2P2O7_sample_5_quenched_1100.txt',
 
 
             #Na3Cu2SbO6
@@ -474,34 +472,30 @@ if __name__=='__main__':
 
 
     #File name of the plot
-    file_name = '(Li-Na)3Cu2SbO6_Ag_exchange.pdf'
+    file_name = 'Co2P2O7_900_quenched_1100_ref.pdf'
 
     #colors and labels of the plot
-    color = ['blue','green','orange','red','violet']
-
-    label = [r'$\mathrm{Li_3Cu_2SbO_6}$',
-             r'$\mathrm{(Ag_3)Li_3Cu_2SbO_6}$',
-             r'$\mathrm{Na_3Cu_2SbO_6}$',
-             r'$\mathrm{(Ag_3)Na_3Cu_2SbO_6}$',
-             r'$\mathrm{Co_2P_2O_7}$' + ' ' + r'$600^{\circ}C$',
-             r'$\mathrm{Co_2P_2O_7}$' + ' ' + r'$900^{\circ}C$',
-             r'$\mathrm{Co_2P_2O_7}$' + ' ' + r'$1000^{\circ}C$',
-             r'$\mathrm{Na_3Co_2SbO_6}$'+' ' + r'$1000^{\circ}C$',
-             r'$\mathrm{Co2P2O7}$'+' ' + r'$600^{\circ}C$'
+    label = [r'$\mathrm{Co_2P_2O_7}$' + ' ' + r'$900^{\circ}C$',
+             r'$\mathrm{Co_2P_2O_7}$' + ' ' + r'\textbf{quenched}'
              ]
-    label_ref = [r'$\mathrm{Ag_3Cu_2SbO_6}$' + r' from ' + r'$\mathrm{Cu_5SbO_6}$',
-                 r'$\mathrm{Ag_3Cu_2SbO_6}$' + r' from ' + r'$\mathrm{Ag_3LiRu_2O_6}$',]
 
-    angle,PSD = XRD([path['Li3Cu2SbO6_1'],
-                     path['Li3Cu2SbO6_Ag_exchange'],
-                     path['Na3Cu2SbO6_1'],
-                     path['Na3Cu2SbO6_Ag_exchange'],
-                     ],
+    label_ref = [r'$\alpha - \mathrm{Co_2P_2O_7}$',
+                 r'$\beta - \mathrm{Co_2P_2O_7}$',
+                 r'$\gamma - \mathrm{Co_2P_2O_7}$',]
+
+
+    color = sns.color_palette("plasma_r", len(label))
+
+
+
+    angle,PSD = XRD([path['Co2P2O7_sample_5'],
+                    path['Co2P2O7_sample_5_quenched_1100']],
                     file_name,
-                    n_powder=4,
+                    n_powder=2,
                     ref=True,
-                    path_ref=[reference['Ag3Cu2SbO6_from_Cu5SbO6'],
-                              reference['Ag3Cu2SbO6_from_Ag3LiRu2O6']],
+                    path_ref=[reference['Co2P2O7'],
+                              reference['Co2P2O7_beta'],
+                              reference['Co2P2O7_gamma']],
                     color=color,
                     label=label,
                     label_ref=label_ref,
